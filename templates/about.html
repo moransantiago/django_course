@@ -2,4 +2,21 @@
 
 {% block content %}
 <h1>About</h1>
+
+<h1>{{ my_title|capfirst|title }}</h1>
+{{ my_html|safe }}
+<p>{{ my_number }}</p>
+
+<ul>
+    {% for my_item in my_list %}
+        {% if my_item == 312 %}
+            <li>{{ forloop.counter }} - {{ my_item|add:22 }}</li>
+        {% elif my_item == 'abc' %}
+            <li>This is not the network</li>
+        {% else %}
+            <li>{{ forloop.counter}} - {{ my_item }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+
 {% endblock %}
