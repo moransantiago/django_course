@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ product.title|title }}</h1>
+<h1>In App template: {{ product.title|title }}</h1>
 <p> {% if product.description %}
         {{ product.description }}
     {% else %}
