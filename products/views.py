@@ -1,43 +1,39 @@
 from django.shortcuts import render
 
-from .forms import ProductForm
+from .forms import ProductForm, RawProductForm
 
 from .models import Product
 
-# Create your views here.
-
-
 # HOW TO MAKE A DJANGO FORM WITH RAW HTML
 # def product_create_view(req):
+#     form = RawProductForm(req.POST or None)
 #     if req.method == 'POST':
-#         title = req.POST['title']
-#         description = req.POST['description']
-#         price = req.POST['price']
-#         Product.objects.create(title=title, description=description, price=price)
-#     context = {}
-# return render(req, 'products/product_create.html', context)
+#         form = RawProductForm(req.POST or None)
+#         if form.is_valid():
+#             form.save()
+#             Product.objects.create(**form.cleaned_data)
+
+#     context = {
+#         'form': form
+#     }
+#     return render(req, 'products/product_create.html', context)
 
 
-# HOW TO MAKE A DJANGO FORM WITH AUTO VALIDATION
-def product_create_view(request):
-    form = ProductForm(request.POST or None)
+def product_create_view(req):
+    form = ProductForm(req.POST or None)
     if form.is_valid():
         form.save()
-        form = ProductForm()
+        form = ProductForm()  # Re render the form
 
     context = {
         'form': form
     }
-    return render(request, 'products/product_create.html', context)
+    return render(req, 'products/product_create.html', context)
 
 
-def product_detail_view(request):
+def product_detail_view(req):
     product = Product.objects.get(id=1)
-    # context = {
-    #     'title': product.title,
-    #     'description': product.description
-    # }
     context = {
         'product': product
     }
-    return render(request, 'products/product_detail.html', context)
+    return render(req, 'products/product_detail.html', context)
