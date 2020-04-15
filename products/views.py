@@ -20,6 +20,7 @@ from .models import Product
 
 
 def product_create_view(req):
+    # This checks that the req is POST, otherwise, an empty form will be rendered
     form = ProductForm(req.POST or None)
     if form.is_valid():
         form.save()

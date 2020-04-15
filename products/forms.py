@@ -13,6 +13,19 @@ class ProductForm(forms.ModelForm):
             }
         )
     )
+    description = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'id': 'my_id',
+                'class': 'new-class-name two',
+                'placeholder': 'Any description',
+                'rows': 20,
+                'columns': 120
+            }
+        )
+    )
+
     class Meta:
         model = Product
         fields = [
@@ -20,6 +33,13 @@ class ProductForm(forms.ModelForm):
             'description',
             'price'
         ]
+
+    def clean_title(self, *args, **kwargs):
+        title = self.cleaned_data['title']
+        if not 'CFE' in title:
+            raise forms.ValidationError('This is not a valid title')
+
+        return title
 
 
 class RawProductForm(forms.Form):
