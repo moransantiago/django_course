@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path
 
 from pages.views import home_view, about_view, contact_view
-from products.views import product_create_view, product_detail_view
+from products.views import product_create_view, product_detail_view, product_render_initial_data
 
 urlpatterns = [
     path('about/', about_view),
     path('contact/', contact_view),
     path('home/', home_view, name = 'home'),
+    path('initial/', product_render_initial_data),
     path('create/', product_create_view),
     path('product/', product_detail_view),
     path('admin/', admin.site.urls),

@@ -38,3 +38,21 @@ def product_detail_view(req):
         'product': product
     }
     return render(req, 'products/product_detail.html', context)
+
+
+def product_render_initial_data(req):
+    # Passing this obj to the form as the parameter: initial=initial_data
+    # Allow us to set initial data in form fields
+    initial_data = {
+        'title': 'My awesome title'
+    }
+    # The following 2 lines allow me to edit a db instance
+    # We pass the object that we get, to the form as the instance parameter
+    obj = Product.objects.get(id=1)
+    form = ProductForm(req.POST or None, instance=obj)
+    if form.is_valid():
+        form.save()
+    context = {
+        'form': form
+    }
+    return render(req, 'products/product_create.html', context)

@@ -34,12 +34,15 @@ class ProductForm(forms.ModelForm):
             'price'
         ]
 
-    def clean_title(self, *args, **kwargs):
-        title = self.cleaned_data['title']
-        if not 'CFE' in title:
-            raise forms.ValidationError('This is not a valid title')
+    # This is to perfmor own validation on a field
+    # In this case, title MUST CONTAIN THE WORD CFE
+    
+    # def clean_title(self, *args, **kwargs):
+    #     title = self.cleaned_data['title']
+    #     if not 'CFE' in title:
+    #         raise forms.ValidationError('This is not a valid title')
 
-        return title
+    #     return title
 
 
 class RawProductForm(forms.Form):
@@ -58,7 +61,7 @@ class RawProductForm(forms.Form):
             attrs={
                 'id': 'my_id',
                 'class': 'new-class-name two',
-                'placeholder': 'Any description'
+                'placeholder': 'Any description',
                 'rows': 20,
                 'columns': 120
             }
