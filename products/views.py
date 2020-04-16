@@ -1,8 +1,18 @@
-from django.shortcuts import render
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import ProductForm, RawProductForm
 
 from .models import Product
+
+
+def product_list_view(req):
+    queryset = Product.objects.all() # All products
+    context = {
+        'product_list': queryset
+    }
+
+    return render(req, 'products/product_list.html', context)
 
 # HOW TO MAKE A DJANGO FORM WITH RAW HTML
 # def product_create_view(req):
@@ -29,15 +39,42 @@ def product_create_view(req):
     context = {
         'form': form
     }
+
     return render(req, 'products/product_create.html', context)
 
 
-def product_detail_view(req):
-    product = Product.objects.get(id=1)
+def product_detail_view(req, id):
+    # This allows to throw an HttpResponseError if the obj wasn't found
+    # get_object_or_404 recieves: (MODEL, ID)
+
+    prod = get_object_or_404(Product, id=id)
     context = {
-        'product': product
+        'product': prod
     }
+
+    # Another way:
+    # try:
+    #     prod = Product.objects.get(id=id)
+    #     context = {
+    #         'product': prod
+    #     }
+    # except Product.DoesNotExist:
+    #     raise Http404
+
     return render(req, 'products/product_detail.html', context)
+
+
+def product_delete_view(req, id):
+    prod = get_object_or_404(Product, id=id)
+    if req.method == 'POST':
+        prod.delete()
+
+        return redirect('../../')
+    context = {
+        'product': prod
+    }
+
+    return render(req, 'products/product_delete.html', context)
 
 
 def product_render_initial_data(req):
@@ -55,4 +92,5 @@ def product_render_initial_data(req):
     context = {
         'form': form
     }
+
     return render(req, 'products/product_create.html', context)
