@@ -7,6 +7,9 @@ urlpatterns = [
     # products
     path('products/', include('products.urls')),
 
+    #blog
+    path('blog/', include('blog.urls')),
+
     # pages
     path('about/', about_view),
     path('contact/', contact_view),
